@@ -11,7 +11,7 @@ import {
 } from './common.js';
 import { getUserDesigns } from './users.js';
 
-const getEnrollNewPerson = (patient) => {
+const enrollNewPerson = (patient) => {
   const languages = ['english', 'isizulu', 'setswana'];
   const mobileCompanies = ['mtn', 'vodacom', 'cellc', 'telcom', 'other'];
   const wagePeriods = ['daily', 'weekly', 'monthly', 'none'];
@@ -26,7 +26,7 @@ const getEnrollNewPerson = (patient) => {
     fields: {
       patient_name: patient.name,
       phone: patient.phone || faker.phone.number(),
-      patient_uuid: faker.string.uuid(),
+      patient_uuid: patient.uuid,
       place_id: faker.string.uuid(),
       language_preference: faker.helpers.arrayElement(languages),
       randomization: faker.helpers.arrayElement(randomizationResults),
@@ -81,7 +81,7 @@ const getEnrollNewPerson = (patient) => {
 };
 
 const getDailySMSReceived = (patient, day) => {
-  const smsResponses = ['1', '0'];
+  const smsResponses = ['1', '0', 'bad text'];
     
   return {
     form: `day${day}_sms`,
@@ -275,37 +275,37 @@ export default (context) => {
                   children: [
                     {
                       designId: 'enroll-report',
-                      amount: 1,
-                      getDoc: ({parent}) => getEnrollNewPerson(parent),
+                      amount: 50,
+                      getDoc: ({parent}) => enrollNewPerson(parent),
                     },
                     {
                       designId: 'daily-report',
-                      amount: 1,
+                      amount: 50,
                       getDoc: ({parent}) => getDailySMSReceived(parent, 2),
                     },
                     {
                       designId: 'daily-report',
-                      amount: 1,
+                      amount: 50,
                       getDoc: ({parent}) => getDailySMSReceived(parent, 7),
                     },
                     {
                       designId: 'no-contact-report',
-                      amount: 1,
+                      amount: 50,
                       getDoc: ({parent}) => getDay8NoContact(parent, 8),
                     },
                     {
                       designId: 'no-contact-report',
-                      amount: 1,
+                      amount: 50,
                       getDoc: ({parent}) => getDay8NoContact(parent, 14),
                     },
                     {
                       designId: 'client-visit-report',
-                      amount: 1,
+                      amount: 50,
                       getDoc: ({parent}) => getVMMCClientVisit(parent),
                     },
                     {
                       designId: 'potential-ae-report',
-                      amount: 1,
+                      amount: 60,
                       getDoc: ({parent}) => getPotentialAe(parent),
                     },
                   ]

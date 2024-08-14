@@ -62,7 +62,7 @@ export const getCHW = context => ({
   ...getPerson(context, 'chw'),
   username: `chw${faker.number.int(10000)}`
 });
-export const getPatient = context => getPerson(context, 'patient');
+export const getPatient = context => getPerson(context, 'patient', { ageRange: { min: 13, max: 23 }});
 export const getWoman = context => getPerson(context, 'patient', { sex: 'female', ageRange: { min: 15, max: 45 } });
 export const getChild = context => getPerson(context, 'patient', { ageRange: { min: 0, max: 14 } });
 export const getInfant = context => getPerson(context, 'patient', { ageRange: { min: 0, max: 1 } });
